@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,7 @@ import com.example.chenlei2.databindtest.ui.base.action.IOpenActivity;
 
 
 @SuppressLint("NewApi")
-public class BaseActivity extends FragmentActivity implements IOpenActivity {
+public class BaseActivity extends AppCompatActivity implements IOpenActivity {
     protected LayoutInflater mLayoutInflater;
     private ActivityManager activityManager;
 
