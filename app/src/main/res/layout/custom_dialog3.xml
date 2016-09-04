@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_dialog"
+    android:gravity="center" >
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="206dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:maxWidth="160dp"
+        android:textColor="#333333"
+        android:textColorHint="@android:color/background_light"
+        android:textSize="16sp"
+ 		android:gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/message"
+        android:layout_width="206dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/title"
+        android:layout_marginTop="8dp"
+        android:textColor="#333333"
+        android:textColorHint="@android:color/background_light"
+        android:textSize="14sp" 
+        android:gravity="center_horizontal"/>
+
+    <View
+        android:id="@+id/view_tag"
+        android:layout_width="207dp"
+        android:layout_height="0.3dp"
+        android:layout_marginTop="18dp"
+        android:layout_below="@id/message"
+        android:background="#16a6f9" />
+
+    <Button
+        android:id="@+id/dialog_btn_confirms"
+        android:layout_width="206dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/view_tag"
+        android:background="@drawable/bg_alarm_videotaping"
+        android:clickable="true"
+        android:text="确定"
+        android:textColor="#16a6f9"
+        android:textSize="18sp" />
+    
+    <TextView
+        android:id="@+id/blank"
+        android:layout_width="wrap_content"
+        android:layout_height="5dp"
+        android:layout_below="@id/iv_line"
+        android:visibility="gone" />
+
+</RelativeLayout>

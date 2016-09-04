@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <TextView 
+        android:id="@+id/showmessage_tv"
+        android:layout_width="207dp"
+        android:layout_height="80dp"
+        android:background="@drawable/bg_alarm_setting"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textColor="#333333"
+        />
+
+</RelativeLayout>

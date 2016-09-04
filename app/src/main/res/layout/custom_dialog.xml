@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_dialog"
+    android:gravity="left" >
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="206dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="4dp"
+        android:maxWidth="160dp"
+        android:textColorHint="@android:color/background_light"
+        android:textSize="20sp"
+        android:visibility="gone"
+        android:gravity="center"
+         />
+
+    <TextView
+        android:id="@+id/message"
+        android:layout_width="206dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:textColor="#333333"
+        android:textColorHint="@android:color/background_light"
+        android:textSize="16sp"
+        android:paddingLeft="10dp"
+        android:gravity="left"/>
+
+    <ImageView
+        android:id="@+id/iv_line"
+        android:layout_width="206dp"
+        android:layout_height="1dp"
+        android:layout_below="@id/message"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:background="#f1f1ee" />
+
+    <RelativeLayout
+        android:layout_width="206dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_line" >
+
+        <View
+            android:id="@+id/line1"
+            android:layout_width="1dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:background="#f1f1ee" />
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_toLeftOf="@id/line1"
+            android:background="@drawable/promot_button_bg_left"
+            android:textColor="@drawable/button_text_color"
+            android:text="取消"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/ok"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_toRightOf="@id/line1"
+            android:background="@drawable/promot_button_bg_right"
+            android:textColor="@drawable/button_text_color"
+            android:text="确定"
+
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/blank"
+        android:layout_width="wrap_content"
+        android:layout_height="5dp"
+        android:layout_below="@id/iv_line"
+        android:visibility="gone" />
+
+</RelativeLayout>
