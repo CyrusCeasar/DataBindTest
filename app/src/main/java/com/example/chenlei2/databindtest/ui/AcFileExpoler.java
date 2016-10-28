@@ -23,13 +23,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.basemoudle.ui.base.BaseActivity;
+import com.example.basemoudle.util.DbManager;
+import com.example.basemoudle.util.DbOrmHelper;
 import com.example.chenlei2.databindtest.BR;
-import com.example.chenlei2.databindtest.CyrucApplication;
+import com.example.chenlei2.databindtest.CyrusApplication;
 import com.example.chenlei2.databindtest.R;
 import com.example.chenlei2.databindtest.model.db.MFile;
 import com.example.chenlei2.databindtest.model.db.MMediaFile;
-import com.example.chenlei2.databindtest.model.util.DbManager;
-import com.example.chenlei2.databindtest.model.util.DbOrmHelper;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ import java.util.List;
 
 import static com.example.chenlei2.databindtest.model.db.MFile.TYPE.*;
 
-public class AcFileExpoler extends AppCompatActivity {
+public class AcFileExpoler extends BaseActivity {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -137,7 +138,7 @@ public class AcFileExpoler extends AppCompatActivity {
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             int caseValue = getArguments().getInt(ARG_SECTION_NUMBER);
-            DbOrmHelper dbOrmHelper = DbManager.getInstance().getOrmHelper(CyrucApplication.DB_NAME);
+            DbOrmHelper dbOrmHelper = DbManager.getInstance().getOrmHelper(CyrusApplication.DB_NAME);
             switch (caseValue){
                 case  1:
                     try {

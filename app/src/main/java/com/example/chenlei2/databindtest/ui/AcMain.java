@@ -14,9 +14,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.basemoudle.ui.base.BaseActivity;
 import com.example.chenlei2.databindtest.R;
+import com.example.fileexplore.FileExplorerActivity;
 
-public class AcMain extends AppCompatActivity
+public class AcMain extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
@@ -87,9 +89,10 @@ public class AcMain extends AppCompatActivity
             Intent intent = new Intent(this,AcVideoPlayer.class);
             startActivity(intent);
         } else if (id == R.id.nav_gallery) {
-
+            Intent intent = new Intent(this,FileExplorerActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_slideshow) {
-            Intent intent = new Intent(this,AcAlarm.class);
+            Intent intent = new Intent(this,AcAudioPlay.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_manage) {

@@ -1,14 +1,11 @@
 package com.example.chenlei2.databindtest.ui;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.ServiceConnection;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PersistableBundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,17 +17,18 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.example.basemoudle.ui.base.BaseActivity;
+import com.example.basemoudle.util.DbManager;
+import com.example.basemoudle.util.DbOrmHelper;
 import com.example.chenlei2.databindtest.BR;
-import com.example.chenlei2.databindtest.CyrucApplication;
+import com.example.chenlei2.databindtest.CyrusApplication;
 import com.example.chenlei2.databindtest.R;
 import com.example.chenlei2.databindtest.model.db.MFile;
 import com.example.chenlei2.databindtest.model.db.MMediaFile;
-import com.example.chenlei2.databindtest.model.util.DbManager;
-import com.example.chenlei2.databindtest.model.util.DbOrmHelper;
-import com.example.chenlei2.databindtest.ui.base.BaseActivity;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -38,7 +36,7 @@ import java.util.TimerTask;
 /**
  * Created by chenlei2 on 2016/9/1 0001.
  */
-public class AcVideoPlayer extends BaseActivity{
+public class AcVideoPlayer extends BaseActivity {
 
     List<MMediaFile> files;
 
@@ -59,7 +57,7 @@ public class AcVideoPlayer extends BaseActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this,R.layout.ac_video_play);
-        dbOrmHelper = DbManager.getInstance().getOrmHelper(CyrucApplication.DB_NAME);
+        dbOrmHelper = DbManager.getInstance().getOrmHelper(CyrusApplication.DB_NAME);
         rv_fileList = $(R.id.rv_fileList);
         btn_next =$(R.id.btn_next);
         btn_pause = $(R.id.btn_pause);
@@ -98,6 +96,21 @@ public class AcVideoPlayer extends BaseActivity{
                     });
                 }
             },0,1000);
+            sb_progress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    videoView.seekTo(seekBar.getProgress());
+                }
+            });
         } catch (SQLException e) {
             e.printStackTrace();
         }

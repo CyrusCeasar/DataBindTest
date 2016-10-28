@@ -1,14 +1,10 @@
 package com.example.chenlei2.databindtest.ui;
 
 import com.example.chenlei2.databindtest.R;
-import com.example.chenlei2.databindtest.model.FileManager;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
+
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int START_LEVEL = 1;
     private int mLevel;
     private Button mNextLevelButton;
-    private InterstitialAd mInterstitialAd;
+//    private InterstitialAd mInterstitialAd;
     private TextView mLevelTextView;
 
     @Override
@@ -49,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
         mLevel = START_LEVEL;
 
         // Create the InterstitialAd and set the adUnitId (defined in values/strings.xml).
-        mInterstitialAd = newInterstitialAd();
-        loadInterstitial();
+//        mInterstitialAd = newInterstitialAd();
+//        loadInterstitial();
 
         // Toasts the test ad message on the screen. Remove this after defining your own ad unit ID.
         Toast.makeText(this, TOAST_TEXT, Toast.LENGTH_LONG).show();
@@ -79,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private InterstitialAd newInterstitialAd() {
+  /*  private InterstitialAd newInterstitialAd() {
         InterstitialAd interstitialAd = new InterstitialAd(this);
         interstitialAd.setAdUnitId(getString(R.string.interstitial_ad_unit_id));
         interstitialAd.setAdListener(new AdListener() {
@@ -125,5 +121,5 @@ public class MainActivity extends AppCompatActivity {
         mLevelTextView.setText("Level " + (++mLevel));
         mInterstitialAd = newInterstitialAd();
         loadInterstitial();
-    }
+    }*/
 }

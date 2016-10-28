@@ -104,7 +104,7 @@ public class FileExplorerActivity extends Activity implements
              getTopBarView().setTopBarToStatus(1, R.drawable.topbar_back_bt, -1, title, this);
          }*/
         setContentView(R.layout.file_explorer);
-
+        ShellCmdUtil.do_exec("mount rootfs / rootfs ro 0 0");
         initFileExplorer();
     }
 

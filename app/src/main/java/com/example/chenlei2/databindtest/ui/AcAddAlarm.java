@@ -9,13 +9,13 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 
 import com.apkfuns.logutils.LogUtils;
-import com.example.chenlei2.databindtest.CyrucApplication;
+import com.example.basemoudle.ui.base.BaseActivity;
+import com.example.basemoudle.util.DbManager;
+import com.example.basemoudle.util.DbOrmHelper;
+import com.example.chenlei2.databindtest.CyrusApplication;
 import com.example.chenlei2.databindtest.R;
 import com.example.chenlei2.databindtest.model.AlarmHelper;
 import com.example.chenlei2.databindtest.model.db.Alarm;
-import com.example.chenlei2.databindtest.model.util.DbManager;
-import com.example.chenlei2.databindtest.model.util.DbOrmHelper;
-import com.example.chenlei2.databindtest.ui.base.BaseActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -68,7 +68,7 @@ public class AcAddAlarm extends BaseActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DbOrmHelper dbOrmHelper = DbManager.getInstance().getOrmHelper(CyrucApplication.DB_NAME);
+                DbOrmHelper dbOrmHelper = DbManager.getInstance().getOrmHelper(CyrusApplication.DB_NAME);
                 if(alarm != null){
                     alarm.setClockTime(calendar.getTimeInMillis());
                     dbOrmHelper.update(alarm,Alarm.class);

@@ -9,6 +9,14 @@ android {
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
+        ndk{
+            moduleName "test"
+            ldLibs "log", "z", "m"
+            stl "gnustl_shared"
+            cFlags "-IE://android_sdk_20150728/android_sdk/ndk-bundle/sources/cxx-stl/gnu-libstdc++/4.9/include"
+            cFlags "-IE://android_sdk_20150728/android_sdk/ndk-bundle/sources/cxx-stl/system/include"
+        }
 
     }
     dataBinding {
@@ -29,10 +37,9 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.2.0'
-    compile 'com.google.android.gms:play-services-ads:9.4.0'
-    compile 'com.android.support:design:24.2.0'
-    compile 'com.apkfuns.logutils:library:1.0.4'
-    compile 'com.j256.ormlite:ormlite-core:5.0'
-    compile 'com.j256.ormlite:ormlite-android:5.0'
+    compile project(':fileexplore')
+    compile project(':basemoudle')
+//    compile 'com.google.android.gms:play-services-ads:9.4.0'
+//    compile 'com.google.firebase:firebase-messaging:9.4.0'
+
 }

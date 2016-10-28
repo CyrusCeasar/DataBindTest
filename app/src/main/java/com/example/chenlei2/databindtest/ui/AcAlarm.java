@@ -13,13 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.basemoudle.ui.base.BaseActivity;
+import com.example.basemoudle.util.DbManager;
 import com.example.chenlei2.databindtest.BR;
-import com.example.chenlei2.databindtest.CyrucApplication;
+import com.example.chenlei2.databindtest.CyrusApplication;
 import com.example.chenlei2.databindtest.R;
 import com.example.chenlei2.databindtest.model.db.Alarm;
-import com.example.chenlei2.databindtest.model.db.MMediaFile;
-import com.example.chenlei2.databindtest.model.util.DbManager;
-import com.example.chenlei2.databindtest.ui.base.BaseActivity;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -52,7 +51,7 @@ public class AcAlarm extends BaseActivity {
     protected void onStart() {
         super.onStart();
         try {
-            List<Alarm> alarms = DbManager.getInstance().getOrmHelper(CyrucApplication.DB_NAME).getDaoEx(Alarm.class).queryBuilder().query();
+            List<Alarm> alarms = DbManager.getInstance().getOrmHelper(CyrusApplication.DB_NAME).getDaoEx(Alarm.class).queryBuilder().query();
             rv_alarms.setAdapter(new AlarmAdapter(alarms,this));
         } catch (SQLException e) {
             e.printStackTrace();

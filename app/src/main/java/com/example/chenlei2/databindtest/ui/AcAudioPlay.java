@@ -20,11 +20,11 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.apkfuns.logutils.LogUtils;
+import com.example.basemoudle.ui.base.BaseActivity;
 import com.example.chenlei2.databindtest.BR;
 import com.example.chenlei2.databindtest.R;
 import com.example.chenlei2.databindtest.ServMusicPlayer;
 import com.example.chenlei2.databindtest.model.db.MMediaFile;
-import com.example.chenlei2.databindtest.ui.base.BaseActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

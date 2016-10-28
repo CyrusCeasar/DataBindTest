@@ -2,8 +2,8 @@ package com.example.chenlei2.databindtest.ui;
 
 import android.os.Bundle;
 
+import com.example.basemoudle.ui.base.BaseActivity;
 import com.example.chenlei2.databindtest.R;
-import com.example.chenlei2.databindtest.ui.base.BaseActivity;
 
 public class AcAlarmAlert extends BaseActivity {
 

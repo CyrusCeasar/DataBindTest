@@ -11,11 +11,10 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 import com.apkfuns.logutils.LogUtils;
+import com.example.basemoudle.util.DbManager;
+import com.example.basemoudle.util.DbOrmHelper;
 import com.example.chenlei2.databindtest.model.db.MFile;
 import com.example.chenlei2.databindtest.model.db.MMediaFile;
-import com.example.chenlei2.databindtest.model.util.DbManager;
-import com.example.chenlei2.databindtest.model.util.DbOrmHelper;
-import com.example.chenlei2.databindtest.model.util.ThreadUtil;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -37,7 +36,7 @@ public class ServMusicPlayer extends Service{
     final MediaPlayer mediaPlayer = new MediaPlayer();
     volatile boolean isStop = false;
 
-    DbOrmHelper dbOrmHelper = DbManager.getInstance().getOrmHelper(CyrucApplication.DB_NAME);
+    DbOrmHelper dbOrmHelper = DbManager.getInstance().getOrmHelper(CyrusApplication.DB_NAME);
 
     private int currentPlayPostion;
     @Nullable

@@ -2,15 +2,14 @@ package com.example.chenlei2.databindtest.model;
 
 
 
-import com.example.chenlei2.databindtest.CyrucApplication;
+import com.example.basemoudle.util.DbManager;
+import com.example.basemoudle.util.DbOrmHelper;
+import com.example.chenlei2.databindtest.CyrusApplication;
 import com.example.chenlei2.databindtest.model.db.Directory;
 import com.example.chenlei2.databindtest.model.db.MFile;
 import com.example.chenlei2.databindtest.model.db.MMediaFile;
-import com.example.chenlei2.databindtest.model.util.DbManager;
-import com.example.chenlei2.databindtest.model.util.DbOrmHelper;
 
 import java.io.File;
-import java.util.LinkedList;
 
 /**
  * Created by chenlei2 on 2016/9/1 0001.
@@ -19,7 +18,7 @@ public class FileManager {
     private static FileManager ourInstance = new FileManager();
 
 
-    private final DbOrmHelper dbOrmHelper = DbManager.getInstance().getOrmHelper(CyrucApplication.DB_NAME);
+    private final DbOrmHelper dbOrmHelper = DbManager.getInstance().getOrmHelper(CyrusApplication.DB_NAME);
 
     public static FileManager getInstance() {
         return ourInstance;
@@ -41,10 +40,16 @@ public class FileManager {
             directory.setSize(file.length());
             directory.setType(MFile.TYPE.dir);
             dbOrmHelper.createOrUpdate(directory,Directory.class);
-            File[] fileList = file.listFiles();
-            for(File mfile :fileList){
+            if(file.exists()) {
+                if(file.canRead()) {
+                    File[] fileList = file.listFiles();
+                    if (fileList != null && fileList.length != 0) {
+                        for (File mfile : fileList) {
 //                LogUtils.i("查询目录"+mfile.getAbsolutePath());
-                searchFilePath(mfile.getAbsolutePath());
+                            searchFilePath(mfile.getAbsolutePath());
+                        }
+                    }
+                }
             }
         }else {
 
