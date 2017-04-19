@@ -50,23 +50,6 @@ public class CyrusApplication extends Application{
                 DbManager.getInstance().printAllData(CyrusApplication.DB_NAME);
         });
 
-      /*  Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-            @Override
-            public void uncaughtException(Thread thread, Throwable ex) {
-                Log.e(thread.getName(), ex.getMessage());
-                FirebaseCrash.report(ex);
-            }
-        });*/
-//        ShellCmdUtil.do_exec("su");
-//        startService(new Intent(this,ServMusicPlayer.class));
-   /*     System.loadLibrary("test");
-        ShellCmdUtil.do_exec("su");
-      *//*  ShellCmdUtil.do_exec("ll /data/data");
-        ShellCmdUtil.do_exec("ps");*//*
-        JniTest.sayHello();
-        JniTest.fork();
-        JniTest.priEnvInfo();
-        JniTest.showTime();
-        DirPathUtil.logAllPath(this);*/
+
     }
 }
