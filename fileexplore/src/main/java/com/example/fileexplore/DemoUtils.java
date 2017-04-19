@@ -5,7 +5,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -30,6 +29,8 @@ import android.text.format.DateFormat;
 import android.util.Log;
 
 
+import com.example.basemoudle.util.LogUtil;
+
 import junit.framework.Assert;
 
 import java.io.BufferedOutputStream;
@@ -45,7 +46,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by Jorstin on 2015/3/18.
+ * Created by cyrus on 2015/3/18.
  */
 public class DemoUtils {
     public static final String TAG = "ECDemo.DemoUtils";

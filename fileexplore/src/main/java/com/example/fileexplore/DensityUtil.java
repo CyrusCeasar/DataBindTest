@@ -19,6 +19,8 @@ import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
+import com.example.basemoudle.util.LogUtil;
+
 
 /**
  * Created by Jorstin on 2015/3/18.

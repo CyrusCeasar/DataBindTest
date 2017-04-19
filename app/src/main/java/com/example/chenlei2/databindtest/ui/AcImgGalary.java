@@ -1,6 +1,5 @@
 package com.example.chenlei2.databindtest.ui;
 
-import android.app.Activity;
 
 import com.example.basemoudle.ui.base.BaseActivity;
 

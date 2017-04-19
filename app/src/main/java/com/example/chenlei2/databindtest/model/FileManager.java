@@ -16,20 +16,12 @@ import java.io.File;
  */
 public class FileManager {
     private static FileManager ourInstance = new FileManager();
-
-
     private final DbOrmHelper dbOrmHelper = DbManager.getInstance().getOrmHelper(CyrusApplication.DB_NAME);
-
     public static FileManager getInstance() {
         return ourInstance;
     }
-
     private FileManager() {
     }
-
- /*   final LinkedList<String> audioFiles =new LinkedList<>();
-    final LinkedList<String> videoFiles = new LinkedList<>();
-    final LinkedList<String> imgFiles = new LinkedList<>();*/
 
     public void searchFilePath(String filePath){
         File file = new File(filePath);
@@ -45,25 +37,23 @@ public class FileManager {
                     File[] fileList = file.listFiles();
                     if (fileList != null && fileList.length != 0) {
                         for (File mfile : fileList) {
-//                LogUtils.i("查询目录"+mfile.getAbsolutePath());
                             searchFilePath(mfile.getAbsolutePath());
                         }
                     }
                 }
             }
         }else {
-
             MFile mfile = new MMediaFile();
             mfile.setName(file.getName());
             mfile.setPath(filePath);
             mfile.setSize(file.length());
             if(MediaFile.isAudioFileType(filePath)){
-//                LogUtils.i("添加文件"+filePath);
+//                LogUtil.i("添加文件"+filePath);
                 mfile.setType(MFile.TYPE.audio);
 //                audioFiles.add(filePath);
                 dbOrmHelper.createOrUpdate(mfile, MMediaFile.class);
             }else if (MediaFile.isVideoFileType(filePath)){
-//                LogUtils.i("添加文件"+filePath);
+//                LogUtil.i("添加文件"+filePath);
 //                videoFiles.add(filePath);
                 mfile.setType(MFile.TYPE.video);
                 dbOrmHelper.createOrUpdate(mfile, MMediaFile.class);
@@ -71,7 +61,7 @@ public class FileManager {
 //                imgFiles.add(filePath);
                 mfile.setType(MFile.TYPE.img);
                 dbOrmHelper.createOrUpdate(mfile, MMediaFile.class);
-//                LogUtils.i("添加文件"+filePath);
+//                LogUtil.i("添加文件"+filePath);
             }else {
                 mfile = new MFile();
                 mfile.setName(file.getName());

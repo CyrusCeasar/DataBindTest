@@ -13,7 +13,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -36,7 +35,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.chenlei2.databindtest.model.db.MFile.TYPE.*;
+import static com.example.chenlei2.databindtest.model.db.MFile.TYPE.audio;
+import static com.example.chenlei2.databindtest.model.db.MFile.TYPE.img;
+import static com.example.chenlei2.databindtest.model.db.MFile.TYPE.video;
 
 public class AcFileExpoler extends BaseActivity {
 
@@ -74,15 +75,7 @@ public class AcFileExpoler extends BaseActivity {
         tabLayout.setupWithViewPager(mViewPager);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-                                   @Override
-                                   public void onClick(View view) {
-                                       Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                                               .setAction("Action", null).show();
-                                   }
-                               }
-        );
-
+        fab.setOnClickListener((view) -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show());
     }
 
 
@@ -139,8 +132,8 @@ public class AcFileExpoler extends BaseActivity {
             super.onCreate(savedInstanceState);
             int caseValue = getArguments().getInt(ARG_SECTION_NUMBER);
             DbOrmHelper dbOrmHelper = DbManager.getInstance().getOrmHelper(CyrusApplication.DB_NAME);
-            switch (caseValue){
-                case  1:
+            switch (caseValue) {
+                case 1:
                     try {
                         List<MMediaFile> mediaFiles = dbOrmHelper.getDaoEx(MMediaFile.class).queryBuilder().where().eq("type", audio).query();
                         values.addAll(mediaFiles);
@@ -148,7 +141,7 @@ public class AcFileExpoler extends BaseActivity {
                         e.printStackTrace();
                     }
                     break;
-                case  2:
+                case 2:
                     try {
                         List<MMediaFile> mediaFiles = dbOrmHelper.getDaoEx(MMediaFile.class).queryBuilder().where().eq("type", video).query();
                         values.addAll(mediaFiles);
@@ -156,7 +149,7 @@ public class AcFileExpoler extends BaseActivity {
                         e.printStackTrace();
                     }
                     break;
-                case  3:
+                case 3:
                     try {
                         List<MFile> mediaFiles = dbOrmHelper.getDaoEx(MFile.class).queryBuilder().where().eq("type", img).query();
                         values.addAll(mediaFiles);
@@ -171,11 +164,6 @@ public class AcFileExpoler extends BaseActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-        /*    View rootView = inflater.inflate(R.layout.fragment_ac_file_expoler, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));*/
-
-
             RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.fg_file_explore, container, false);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
             recyclerView.setAdapter(new FileAdapter(values, getActivity()));
@@ -207,21 +195,17 @@ public class AcFileExpoler extends BaseActivity {
             final MFile mFile = values.get(position);
             holder1.getBinding().setVariable(BR.file, mFile);
             holder1.getBinding().executePendingBindings();
-            ((ViewHolder) holder).getBinding().getRoot().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    switch (mFile.getType()){
-                        case audio:
-                            Intent intent = new Intent(context,AcAudioPlay.class);
-                            intent.putExtra(AcAudioPlay.KEY_MUSIC,mFile);
-                            context.startActivity(intent);
-                            break;
-                        case video:
-                            break;
-                        case img:
-                            break;
-                    }
-
+            ((ViewHolder) holder).getBinding().getRoot().setOnClickListener((view) -> {
+                switch (mFile.getType()) {
+                    case audio:
+                        Intent intent = new Intent(context, AcAudioPlay.class);
+                        intent.putExtra(AcAudioPlay.KEY_MUSIC, mFile);
+                        context.startActivity(intent);
+                        break;
+                    case video:
+                        break;
+                    case img:
+                        break;
                 }
             });
 

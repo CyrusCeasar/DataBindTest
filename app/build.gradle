@@ -1,45 +1,45 @@
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
 
     defaultConfig {
         applicationId "com.example.chenlei2.databindtest"
         minSdkVersion 16
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
-        ndk{
-            moduleName "test"
-            ldLibs "log", "z", "m"
-            stl "gnustl_shared"
-            cFlags "-IE://android_sdk_20150728/android_sdk/ndk-bundle/sources/cxx-stl/gnu-libstdc++/4.9/include"
-            cFlags "-IE://android_sdk_20150728/android_sdk/ndk-bundle/sources/cxx-stl/system/include"
-        }
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
 
-    }
-    dataBinding {
-        enabled = true
-    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    /* compileOptions {
+
+
+
+
+    dataBinding {
+        enabled = true
+    }
+
+
+    compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
-    }*/
+    }
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
     compile project(':fileexplore')
     compile project(':basemoudle')
-//    compile 'com.google.android.gms:play-services-ads:9.4.0'
-//    compile 'com.google.firebase:firebase-messaging:9.4.0'
-
+    compile 'com.android.support:appcompat-v7:25.3.1'
 }

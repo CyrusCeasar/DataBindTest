@@ -3,15 +3,14 @@ package com.example.chenlei2.databindtest.ui;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
-import com.apkfuns.logutils.LogUtils;
 import com.example.basemoudle.ui.base.BaseActivity;
 import com.example.basemoudle.util.DbManager;
 import com.example.basemoudle.util.DbOrmHelper;
+import com.example.basemoudle.util.LogUtil;
 import com.example.chenlei2.databindtest.CyrusApplication;
 import com.example.chenlei2.databindtest.R;
 import com.example.chenlei2.databindtest.model.AlarmHelper;
@@ -20,6 +19,7 @@ import com.example.chenlei2.databindtest.model.db.Alarm;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class AcAddAlarm extends BaseActivity {
 
@@ -45,29 +45,20 @@ public class AcAddAlarm extends BaseActivity {
         if(alarm != null){
             calendar.setTime(new Date(alarm.getClockTime()));
         }
-
-        datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), new DatePicker.OnDateChangedListener() {
-            @Override
-            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), (DatePicker view, int year, int monthOfYear, int dayOfMonth) ->{
                 calendar.set(year,monthOfYear,dayOfMonth);
-                LogUtils.i(calendar.toString());
-            }
+                LogUtil.i(calendar.toString());
         });
     /*    timePicker.setHour(calendar.get(Calendar.HOUR_OF_DAY));
         timePicker.setMinute(calendar.get(Calendar.MINUTE));*/
 
-        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-            @Override
-            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+        timePicker.setOnTimeChangedListener((view,hourOfDay,minute)-> {
                 calendar.set(Calendar.HOUR_OF_DAY,hourOfDay);
                 calendar.set(Calendar.MINUTE,minute);
-                LogUtils.i(calendar.toString());
-            }
+                LogUtil.i(calendar.toString());
         });
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        button.setOnClickListener(view->{
                 DbOrmHelper dbOrmHelper = DbManager.getInstance().getOrmHelper(CyrusApplication.DB_NAME);
                 if(alarm != null){
                     alarm.setClockTime(calendar.getTimeInMillis());
@@ -80,11 +71,9 @@ public class AcAddAlarm extends BaseActivity {
                 }
                 Intent intent = new Intent(AcAddAlarm.this,AcAlarmAlert.class);
                 intent.putExtra(KEY_ALARM,alarm);
-                LogUtils.i(new SimpleDateFormat("yyy-MM-dd hh:mm:ss").format(new Date(calendar.getTimeInMillis())));
+                LogUtil.i(new SimpleDateFormat("yyy-MM-dd hh:mm:ss", Locale.CHINA).format(new Date(calendar.getTimeInMillis())));
                 new AlarmHelper(AcAddAlarm.this).addClock(alarm.getClockTime(), PendingIntent.getActivity(AcAddAlarm.this,alarm.getAlarmId(),intent,PendingIntent.FLAG_UPDATE_CURRENT));
                 finish();
-            }
         });
-
     }
 }

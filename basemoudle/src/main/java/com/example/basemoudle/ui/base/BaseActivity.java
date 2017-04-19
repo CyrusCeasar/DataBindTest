@@ -7,12 +7,17 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
+
 import com.example.basemoudle.ui.base.action.IOpenActivity;
-import com.example.basemoudle.util.ThreadUtil;
+import com.example.basemoudle.util.LogUtil;
+
+import java.util.Locale;
 
 
 @SuppressLint("NewApi")
-public class BaseActivity extends AppCompatActivity implements IOpenActivity {
+public abstract class BaseActivity extends AppCompatActivity implements IOpenActivity ,View.OnClickListener{
+    private static final String  TAG = BaseActivity.class.getSimpleName();
     protected LayoutInflater mLayoutInflater;
     private ActivityManager activityManager;
 
@@ -114,5 +119,13 @@ public class BaseActivity extends AppCompatActivity implements IOpenActivity {
         config.setToDefaults();
         res.updateConfiguration(config, res.getDisplayMetrics());
         return res;
+    }
+   public void showMessage(String msg){
+       Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_SHORT).show();
+   }
+
+    @Override
+    public void onClick(View v) {
+        LogUtil.i(TAG,String.format(Locale.CHINA,"view id:%d clicked",v.getId()));
     }
 }

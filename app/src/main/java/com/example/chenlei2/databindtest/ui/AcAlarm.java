@@ -26,6 +26,7 @@ import java.util.List;
 public class AcAlarm extends BaseActivity {
 
     RecyclerView rv_alarms;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,31 +35,24 @@ public class AcAlarm extends BaseActivity {
         setSupportActionBar(toolbar);
         rv_alarms = $(R.id.rv_alarms);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-          /*      Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
-                Intent intent = new Intent(AcAlarm.this,AcAddAlarm.class);
-                startActivity(intent);
-
-            }
+        fab.setOnClickListener(view -> {
+            Intent intent = new Intent(AcAlarm.this, AcAddAlarm.class);
+            startActivity(intent);
         });
-        rv_alarms.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        rv_alarms.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
-
     @Override
     protected void onStart() {
         super.onStart();
         try {
             List<Alarm> alarms = DbManager.getInstance().getOrmHelper(CyrusApplication.DB_NAME).getDaoEx(Alarm.class).queryBuilder().query();
-            rv_alarms.setAdapter(new AlarmAdapter(alarms,this));
+            rv_alarms.setAdapter(new AlarmAdapter(alarms, this));
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public  class AlarmAdapter extends RecyclerView.Adapter {
+    private class AlarmAdapter extends RecyclerView.Adapter {
         List<Alarm> values;
         Context context;
 
@@ -81,14 +75,10 @@ public class AcAlarm extends BaseActivity {
             ViewHolder holder1 = (ViewHolder) holder;
             holder1.getBinding().setVariable(BR.alarm, values.get(position));
             holder1.getBinding().executePendingBindings();
-
-            ((ViewHolder) holder).getBinding().getRoot().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(AcAlarm.this,AcAddAlarm.class);
-                    intent.putExtra(AcAddAlarm.KEY_ALARM,values.get(position));
+            ((ViewHolder) holder).getBinding().getRoot().setOnClickListener(view->{
+                    Intent intent = new Intent(AcAlarm.this, AcAddAlarm.class);
+                    intent.putExtra(AcAddAlarm.KEY_ALARM, values.get(position));
                     startActivity(intent);
-                }
             });
 
 
@@ -104,15 +94,15 @@ public class AcAlarm extends BaseActivity {
 
             private ViewDataBinding binding;
 
-            public ViewHolder(View itemView) {
+            private ViewHolder(View itemView) {
                 super(itemView);
             }
 
-            public ViewDataBinding getBinding() {
+            private ViewDataBinding getBinding() {
                 return this.binding;
             }
 
-            public void setBinding(ViewDataBinding binding) {
+            private void setBinding(ViewDataBinding binding) {
                 this.binding = binding;
             }
         }

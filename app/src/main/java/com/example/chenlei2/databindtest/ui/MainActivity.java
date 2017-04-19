@@ -1,17 +1,15 @@
 package com.example.chenlei2.databindtest.ui;
 
-import com.example.chenlei2.databindtest.R;
-
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.chenlei2.databindtest.R;
 
 public class MainActivity extends AppCompatActivity {
     // Remove the below line after defining your own ad unit ID.
@@ -21,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int START_LEVEL = 1;
     private int mLevel;
     private Button mNextLevelButton;
-//    private InterstitialAd mInterstitialAd;
+    //    private InterstitialAd mInterstitialAd;
     private TextView mLevelTextView;
 
     @Override
@@ -33,11 +31,8 @@ public class MainActivity extends AppCompatActivity {
         mNextLevelButton = ((Button) findViewById(R.id.next_level_button));
         mNextLevelButton.setEnabled(false);
 
-        mNextLevelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getBaseContext(),AcFileExpoler.class));
-            }
+        mNextLevelButton.setOnClickListener((view) -> {
+            startActivity(new Intent(getBaseContext(), AcFileExpoler.class));
         });
 
         // Create the text view to show the level number.

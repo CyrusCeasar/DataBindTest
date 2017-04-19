@@ -68,49 +68,45 @@ public class AcVideoPlayer extends BaseActivity {
         handler = new Handler(getMainLooper());
         try {
             files = dbOrmHelper.getDaoEx(MMediaFile.class).queryBuilder().where().eq("type", MFile.TYPE.video).query();
-            binding.setVariable(BR.video,files.get(currentPlayPosition));
-            rv_fileList.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-            rv_fileList.setAdapter(new VideoAdapter(files,this));
-            mediaController = new MediaController(this);
-            mediaController.setMediaPlayer(videoView);
-            videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mediaPlayer) {
-                    videoView.start();
-                    MMediaFile mediaFile = files.get(currentPlayPosition);
-                    mediaFile.setTimeLong(mediaPlayer.getDuration());
-                    dbOrmHelper.update(mediaFile,MMediaFile.class);
-                    binding.setVariable(BR.video,mediaFile);
-                    sb_progress.setMax(mediaPlayer.getDuration());
-                }
-            });
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            tv_playTime.setText(simpleDateFormat.format(videoView.getCurrentPosition()));
-                            sb_progress.setProgress(videoView.getCurrentPosition());
-                        }
-                    });
-                }
-            },0,1000);
-            sb_progress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                @Override
-                public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+            if(files != null && !files.isEmpty()) {
+                binding.setVariable(BR.video, files.get(currentPlayPosition));
+                rv_fileList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+                rv_fileList.setAdapter(new VideoAdapter(files, this));
+                mediaController = new MediaController(this);
+                mediaController.setMediaPlayer(videoView);
+                videoView.setOnPreparedListener((mediaPlayer)-> {
+                        videoView.start();
+                        MMediaFile mediaFile = files.get(currentPlayPosition);
+                        mediaFile.setTimeLong(mediaPlayer.getDuration());
+                        dbOrmHelper.update(mediaFile, MMediaFile.class);
+                        binding.setVariable(BR.video, mediaFile);
+                        sb_progress.setMax(mediaPlayer.getDuration());
+                });
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        handler.post(()->{
+                                tv_playTime.setText(simpleDateFormat.format(videoView.getCurrentPosition()));
+                                sb_progress.setProgress(videoView.getCurrentPosition());
+                        });
+                    }
+                }, 0, 1000);
+                sb_progress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 
-                }
+                    }
 
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {
-                }
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                    }
 
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {
-                    videoView.seekTo(seekBar.getProgress());
-                }
-            });
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                        videoView.seekTo(seekBar.getProgress());
+                    }
+                });
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -141,12 +137,9 @@ public class AcVideoPlayer extends BaseActivity {
             holder1.getBinding().setVariable(BR.musicItem, values.get(position));
             holder1.getBinding().executePendingBindings();
 
-            ((ViewHolder) holder).getBinding().getRoot().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            ((ViewHolder) holder).getBinding().getRoot().setOnClickListener(view-> {
                     videoView.setVideoPath(values.get(position).getPath());
                     currentPlayPosition = position;
-                }
             });
 
 

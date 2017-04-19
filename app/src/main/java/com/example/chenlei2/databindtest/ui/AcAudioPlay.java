@@ -19,8 +19,8 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.apkfuns.logutils.LogUtils;
 import com.example.basemoudle.ui.base.BaseActivity;
+import com.example.basemoudle.util.LogUtil;
 import com.example.chenlei2.databindtest.BR;
 import com.example.chenlei2.databindtest.R;
 import com.example.chenlei2.databindtest.ServMusicPlayer;
@@ -29,66 +29,60 @@ import com.example.chenlei2.databindtest.model.db.MMediaFile;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
 /**
  * Created by chenlei2 on 2016/9/1 0001.
  */
-public class AcAudioPlay extends BaseActivity implements View.OnClickListener{
+public class AcAudioPlay extends BaseActivity implements View.OnClickListener {
 
     public static final String KEY_MUSIC = "music";
 
     ServMusicPlayer mServMusicPlayer;
 
-    Button btn_previous,btn_pause,btn_next;
+    Button btn_previous, btn_pause, btn_next;
     RecyclerView rv_musicList;
     ViewDataBinding binding;
     ServiceConnection conn;
     SeekBar sb_progress;
     Timer timer = new Timer();
     TextView tv_playTime;
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("mm:ss");
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("mm:ss", Locale.CHINA);
     Handler handler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.ac_audio_play);
         handler = new Handler(getMainLooper());
-         conn = new ServiceConnection() {
+        conn = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-                LogUtils.i("service bind finished");
+                LogUtil.i("service bind finished");
 
-                mServMusicPlayer = ((ServMusicPlayer.MsgBinder)iBinder).getService();
-                binding.setVariable(BR.music,mServMusicPlayer.getPlayingFile());
-                rv_musicList.setAdapter(new MusicAdapter(mServMusicPlayer.getFileList(),AcAudioPlay.this));
+                mServMusicPlayer = ((ServMusicPlayer.MsgBinder) iBinder).getService();
+                binding.setVariable(BR.music, mServMusicPlayer.getPlayingFile());
+                rv_musicList.setAdapter(new MusicAdapter(mServMusicPlayer.getFileList(), AcAudioPlay.this));
                 mServMusicPlayer.setMediaPlayListener(new ServMusicPlayer.MediaPlayListener() {
-
-
                     @Override
                     public void onPrepared(MediaPlayer mediaPlayer) {
                         sb_progress.setProgress(0);
                         tv_playTime.setText(String.valueOf(0));
                         sb_progress.setMax(mediaPlayer.getDuration());
-                        binding.setVariable(BR.music,mServMusicPlayer.getPlayingFile());
+                        binding.setVariable(BR.music, mServMusicPlayer.getPlayingFile());
                     }
                 });
-
-
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                tv_playTime.setText(simpleDateFormat.format(new Date(mServMusicPlayer.getMediaPlayer().getCurrentPosition())));
-                                sb_progress.setProgress(mServMusicPlayer.getMediaPlayer().getCurrentPosition());
-                            }
+                        handler.post(() -> {
+                            tv_playTime.setText(simpleDateFormat.format(new Date(mServMusicPlayer.getMediaPlayer().getCurrentPosition())));
+                            sb_progress.setProgress(mServMusicPlayer.getMediaPlayer().getCurrentPosition());
                         });
 
                     }
-                },0,300);
+                }, 0, 300);
             }
 
             @Override
@@ -97,21 +91,17 @@ public class AcAudioPlay extends BaseActivity implements View.OnClickListener{
             }
         };
         Intent intent = new Intent(this, ServMusicPlayer.class);
-        bindService(intent,conn, Context.BIND_AUTO_CREATE);
+        bindService(intent, conn, Context.BIND_AUTO_CREATE);
 
       /*  mediaFile = (MediaFile) getIntent().getExtras().getSerializable(KEY_MUSIC);
         binding.setVariable(BR.music,mediaFile);*/
         rv_musicList = (RecyclerView) findViewById(R.id.rv_musicList);
-        btn_next =$(R.id.btn_next);
+        btn_next = $(R.id.btn_next);
         btn_pause = $(R.id.btn_pause);
         btn_previous = $(R.id.btn_previous);
         sb_progress = $(R.id.sb_progress);
         tv_playTime = $(R.id.tv_playTime);
-
         rv_musicList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-
-
-
         sb_progress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -123,7 +113,7 @@ public class AcAudioPlay extends BaseActivity implements View.OnClickListener{
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                if(mServMusicPlayer != null){
+                if (mServMusicPlayer != null) {
                     mServMusicPlayer.getMediaPlayer().seekTo(seekBar.getProgress());
                 }
             }
@@ -133,30 +123,36 @@ public class AcAudioPlay extends BaseActivity implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btn_next:
-                if(mServMusicPlayer != null){
+                if (mServMusicPlayer != null) {
                     mServMusicPlayer.startNextMusic();
                 }
                 break;
             case R.id.btn_pause:
-                if(mServMusicPlayer != null){
-                    if(mServMusicPlayer.getMediaPlayer().isPlaying()){
+                if (mServMusicPlayer != null) {
+                    if (mServMusicPlayer.getMediaPlayer().isPlaying()) {
                         mServMusicPlayer.stopMusic();
-                    }else {
+                    } else {
                         mServMusicPlayer.restartMusic();
                     }
                 }
                 break;
             case R.id.btn_previous:
-                if(mServMusicPlayer != null){
+                if (mServMusicPlayer != null) {
                     mServMusicPlayer.startPreviousMusic();
                 }
                 break;
         }
     }
 
-    public  class MusicAdapter extends RecyclerView.Adapter {
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindService(conn);
+    }
+
+    public class MusicAdapter extends RecyclerView.Adapter {
         List<MMediaFile> values;
         Context context;
 
@@ -179,15 +175,7 @@ public class AcAudioPlay extends BaseActivity implements View.OnClickListener{
             ViewHolder holder1 = (ViewHolder) holder;
             holder1.getBinding().setVariable(BR.musicItem, values.get(position));
             holder1.getBinding().executePendingBindings();
-
-            ((ViewHolder) holder).getBinding().getRoot().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mServMusicPlayer.startMusic(position);
-                }
-            });
-
-
+            ((ViewHolder) holder).getBinding().getRoot().setOnClickListener(view -> mServMusicPlayer.startMusic(position));
         }
 
 
@@ -213,13 +201,5 @@ public class AcAudioPlay extends BaseActivity implements View.OnClickListener{
             }
         }
 
-    }
-
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbindService(conn);
     }
 }

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.apkfuns.logutils.LogUtils;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.db.SqliteAndroidDatabaseType;
@@ -47,7 +46,7 @@ public class DbOrmHelper extends OrmLiteSqliteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db, ConnectionSource cs) {
-        LogUtils.i("Creating database");
+        LogUtil.i("Creating database");
         createTables(db, cs);
 
         // 数据库创建时自动执行,以后不会再自动执行
@@ -57,9 +56,9 @@ public class DbOrmHelper extends OrmLiteSqliteOpenHelper {
         // 创建Setting表
         //
         // initData();
-        // LogUtils.i(DbManager.class.getName(), "创建数据库成功！");
+        // LogUtil.i(DbManager.class.getName(), "创建数据库成功！");
         // } catch (Exception e) {
-        // LogUtils.i(DbManager.class.getName(), "创建数据库失败！", e);
+        // LogUtil.i(DbManager.class.getName(), "创建数据库失败！", e);
         // e.printStackTrace();
         // }
     }
@@ -67,7 +66,7 @@ public class DbOrmHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, ConnectionSource cs,
                           int oldVersion, int newVersion) {
-        LogUtils.i("Upgrading database from version " + oldVersion + " to "
+        LogUtil.i("Upgrading database from version " + oldVersion + " to "
                 + newVersion);
         int upgradeVersion = oldVersion;
 
@@ -80,31 +79,31 @@ public class DbOrmHelper extends OrmLiteSqliteOpenHelper {
 //            createNewTable();  2、创建新表
 //            copyData();        3、复制数据
 //            deleteOldTables(); 4、删除老表
-//                LogUtils.i("upgrade","upgrade:start");
+//                LogUtil.i("upgrade","upgrade:start");
 //                String renameSql =  "ALTER TABLE account RENAME TO account_temp";
 //
-//                LogUtils.i("upgrade","upgrade:" + renameSql);
+//                LogUtil.i("upgrade","upgrade:" + renameSql);
 //                db.execSQL(renameSql);
-//                LogUtils.i("upgrade","upgrade:db.execSQL(renameSql);");
+//                LogUtil.i("upgrade","upgrade:db.execSQL(renameSql);");
 //
 //                try {
 //                    TableUtils.createTableIfNotExists(cs, Account.class);
-//                    LogUtils.i("upgrade","upgrade createTableIfNotExists(cs, Account.class);");
+//                    LogUtil.i("upgrade","upgrade createTableIfNotExists(cs, Account.class);");
 //                } catch (java.sql.SQLException e) {
 //                    e.printStackTrace();
-//                    LogUtils.i("upgrade","upgrade java.sql.SQLException e");
+//                    LogUtil.i("upgrade","upgrade java.sql.SQLException e");
 //                }
 //
 //
 //                String copyDataSql = "insert into account(accountId,nickName,iconUrl) Select accountId,nickName,iconUrl from account_temp";
 //
-//                LogUtils.i("upgrade","upgrade: " + copyDataSql);
+//                LogUtil.i("upgrade","upgrade: " + copyDataSql);
 //                db.execSQL(copyDataSql);
-//                LogUtils.i("upgrade","upgrade: db.execSQL(copyDataSql)");
+//                LogUtil.i("upgrade","upgrade: db.execSQL(copyDataSql)");
 //                String delTableSql = "DROP TABLE account_temp";
-//                LogUtils.i("upgrade","upgrade: " + delTableSql);
+//                LogUtil.i("upgrade","upgrade: " + delTableSql);
 //                db.execSQL(delTableSql);
-//                LogUtils.i("upgrade","upgrade:  db.execSQL(delTableSql);");
+//                LogUtil.i("upgrade","upgrade:  db.execSQL(delTableSql);");
 
                 createTables(db, cs);
 
@@ -116,7 +115,7 @@ public class DbOrmHelper extends OrmLiteSqliteOpenHelper {
 
             }
         } catch (Exception e) {
-            LogUtils.i("upgrade", "upgrade:  catch(Exception e)");
+            LogUtil.i("upgrade", "upgrade:  catch(Exception e)");
             e.printStackTrace();
         } finally {
             db.endTransaction();
@@ -146,7 +145,7 @@ public class DbOrmHelper extends OrmLiteSqliteOpenHelper {
     private void createTable(Class<?> clazz, ConnectionSource cs) {
         try {
 
-            LogUtils.i(
+            LogUtil.i(
 
                     "create table " + clazz.getSimpleName() + "---result:"
                             + TableUtils.createTableIfNotExists(cs, clazz));
@@ -239,7 +238,7 @@ public class DbOrmHelper extends OrmLiteSqliteOpenHelper {
 
     private void dropTable(Class<?> clazz, ConnectionSource cs) {
         try {
-            LogUtils.i(
+            LogUtil.i(
 
                     "drop table " + clazz.getSimpleName() + "---result:"
                             + TableUtils.dropTable(cs, clazz, false));
@@ -372,7 +371,7 @@ public class DbOrmHelper extends OrmLiteSqliteOpenHelper {
      * @param <T>
      */
     public <T> void deleteTableData(Class<T> clazz) {
-        LogUtils.i("DbManager", "clazz simplename:" + clazz.getSimpleName());
+        LogUtil.i("DbManager", "clazz simplename:" + clazz.getSimpleName());
         String sqlCmd = "DELETE FROM " + clazz.getSimpleName();
         try {
             getDaoEx(clazz).executeRawNoArgs(sqlCmd);

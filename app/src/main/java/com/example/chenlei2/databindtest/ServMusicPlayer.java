@@ -10,9 +10,9 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
-import com.apkfuns.logutils.LogUtils;
 import com.example.basemoudle.util.DbManager;
 import com.example.basemoudle.util.DbOrmHelper;
+import com.example.basemoudle.util.LogUtil;
 import com.example.chenlei2.databindtest.model.db.MFile;
 import com.example.chenlei2.databindtest.model.db.MMediaFile;
 
@@ -23,86 +23,67 @@ import java.util.List;
 /**
  * Created by chenlei2 on 2016/9/1 0001.
  */
-public class ServMusicPlayer extends Service{
+public class ServMusicPlayer extends Service {
 
+    final MediaPlayer mediaPlayer = new MediaPlayer();
     BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
         }
     };
-
     List<MMediaFile> fileList;
-
-    final MediaPlayer mediaPlayer = new MediaPlayer();
     volatile boolean isStop = false;
 
     DbOrmHelper dbOrmHelper = DbManager.getInstance().getOrmHelper(CyrusApplication.DB_NAME);
-
+    MediaPlayListener mediaPlayListener;
     private int currentPlayPostion;
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return new MsgBinder();
     }
 
-    public class MsgBinder extends Binder{
-        public ServMusicPlayer getService(){
-            return ServMusicPlayer.this;
-        }
-    }
-
-    MediaPlayListener mediaPlayListener;
-
     @Override
     public void onCreate() {
         super.onCreate();
-        LogUtils.i("service created");
+        LogUtil.i("service created");
         try {
             fileList = dbOrmHelper.getDaoEx(MMediaFile.class).queryBuilder().where().eq("type", MFile.TYPE.audio).query();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mediaPlayer) {
-                fileList.get(currentPlayPostion).setTimeLong(mediaPlayer.getDuration());
-                dbOrmHelper.update(fileList.get(currentPlayPostion),MMediaFile.class);
-                if(mediaPlayListener != null){
-                    mediaPlayListener.onPrepared(mediaPlayer);
-                }
+        mediaPlayer.setOnPreparedListener((mediaPlayer) -> {
+            fileList.get(currentPlayPostion).setTimeLong(mediaPlayer.getDuration());
+            dbOrmHelper.update(fileList.get(currentPlayPostion), MMediaFile.class);
+            if (mediaPlayListener != null) {
+                mediaPlayListener.onPrepared(mediaPlayer);
             }
         });
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-                    startMusic(currentPlayPostion+1);
-            }
-        });
+        mediaPlayer.setOnCompletionListener((mediaPlayer) ->startMusic(currentPlayPostion + 1));
 
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        try {
-            mediaPlayer.setDataSource(fileList.get(currentPlayPostion).getPath());
-            mediaPlayer.prepare();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (fileList != null && !fileList.isEmpty()) {
+            try {
+                mediaPlayer.setDataSource(fileList.get(currentPlayPostion).getPath());
+                mediaPlayer.prepare();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
     }
-
-
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         return super.onStartCommand(intent, flags, startId);
     }
 
-
-
-    public void stopMusic(){
+    public void stopMusic() {
         mediaPlayer.pause();
     }
 
-    public void startMusic(int position){
+    public void startMusic(int position) {
         currentPlayPostion = position;
         mediaPlayer.reset();
         try {
@@ -114,13 +95,13 @@ public class ServMusicPlayer extends Service{
         }
     }
 
-    public void startPreviousMusic(){
-        currentPlayPostion = (currentPlayPostion -1 + fileList.size())%fileList.size();
+    public void startPreviousMusic() {
+        currentPlayPostion = (currentPlayPostion - 1 + fileList.size()) % fileList.size();
         startMusic(currentPlayPostion);
     }
 
-    public void startNextMusic(){
-        currentPlayPostion = (currentPlayPostion +1 + fileList.size())%fileList.size();
+    public void startNextMusic() {
+        currentPlayPostion = (currentPlayPostion + 1 + fileList.size()) % fileList.size();
         startMusic(currentPlayPostion);
     }
 
@@ -135,29 +116,39 @@ public class ServMusicPlayer extends Service{
     @Override
     public void onDestroy() {
         super.onDestroy();
-        LogUtils.i("service destoryed");
+        LogUtil.i("service destoryed");
     }
 
     public List<MMediaFile> getFileList() {
         return fileList;
     }
 
-    public void restartMusic(){
-        if(!mediaPlayer.isPlaying()){
+    public void restartMusic() {
+        if (!mediaPlayer.isPlaying()) {
             mediaPlayer.start();
         }
     }
 
-    public MMediaFile getPlayingFile(){
-        return  fileList.get(currentPlayPostion);
+    public MMediaFile getPlayingFile() {
+        if (fileList != null && !fileList.isEmpty()) {
+            return fileList.get(currentPlayPostion);
+        }
+        return null;
+
     }
 
     public MediaPlayer getMediaPlayer() {
         return mediaPlayer;
     }
 
-    public static abstract class MediaPlayListener implements MediaPlayer.OnPreparedListener{
+    public static abstract class MediaPlayListener implements MediaPlayer.OnPreparedListener {
 
+    }
+
+    public class MsgBinder extends Binder {
+        public ServMusicPlayer getService() {
+            return ServMusicPlayer.this;
+        }
     }
 
 }

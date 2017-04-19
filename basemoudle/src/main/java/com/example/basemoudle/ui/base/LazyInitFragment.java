@@ -18,9 +18,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 
-import com.apkfuns.logutils.LogUtils;
 import com.example.basemoudle.ui.base.action.IAtutoFresh;
 import com.example.basemoudle.ui.plugin.InitingView;
+import com.example.basemoudle.util.LogUtil;
 
 
 /**.
@@ -60,8 +60,8 @@ public abstract class LazyInitFragment extends BaseFragment implements IAtutoFre
     @Override
     public void onResume() {
         super.onResume();
-        LogUtils.d("onResume isVisible ==  " + isVisible());
-        LogUtils.d("onResume isPrepared ==  " + isPrepared);
+        LogUtil.d("onResume isVisible ==  " + isVisible());
+        LogUtil.d("onResume isPrepared ==  " + isPrepared);
         isVesible = isVisible() && isPrepared;
 
     }
@@ -77,7 +77,7 @@ public abstract class LazyInitFragment extends BaseFragment implements IAtutoFre
     /**.
      * Description 
      * @param isVisibleToUser
-     * @see android.support.v4.app.Fragment#setUserVisibleHint(boolean)
+     * @see
      */
 
     @Override

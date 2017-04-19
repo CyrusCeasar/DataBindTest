@@ -1,14 +1,11 @@
 package com.example.chenlei2.databindtest;
 
 import android.app.Application;
-import android.util.Log;
 
 import com.example.basemoudle.util.DbManager;
-import com.example.basemoudle.util.FireBaseUtil;
 import com.example.basemoudle.util.ThreadUtil;
 import com.example.chenlei2.databindtest.model.FileManager;
 import com.example.chenlei2.databindtest.model.calcuteTime.Calcuter;
-import com.example.chenlei2.databindtest.model.calcuteTime.Method;
 import com.example.chenlei2.databindtest.model.db.Alarm;
 import com.example.chenlei2.databindtest.model.db.Directory;
 import com.example.chenlei2.databindtest.model.db.MFile;
@@ -37,28 +34,20 @@ public class CyrusApplication extends Application{
     public void onCreate() {
         super.onCreate();
         instatnce = this;
-//        FireBaseUtil.appOpenLogEvent(this);
-
-        ThreadUtil.getInstance().execute(new Runnable() {
-            @Override
-            public void run() {
-                new Calcuter(new Method() {
-                    @Override
-                    public void execute() {
-                        List<String>  tables = new ArrayList<String>();
+        ThreadUtil.getInstance().execute(()->{
+                new Calcuter(() ->{
+                        List<String>  tables = new ArrayList<>();
                         tables.add( Alarm.class.getName());
                         tables.add( Directory.class.getName());
                         tables.add( MFile.class.getName());
                         tables.add( MMediaFile.class.getName());
                         DbManager.getInstance().addOrmHelper(getApplicationContext(),tables,DB_NAME,1);
-                    }
                 }).execute();
-
-
-
-//                FileManager.getInstance().searchFilePath(SdCardUtil.getAllStorageLocations().get(SdCardUtil.SD_CARD).getAbsolutePath());
+                List<MFile> files = (List<MFile>) DbManager.getInstance().getOrmHelper(DB_NAME).queryForAll(MFile.class);
+                if(files != null && !files.isEmpty()) {
+                    FileManager.getInstance().searchFilePath(SdCardUtil.getAllStorageLocations().get(SdCardUtil.SD_CARD).getAbsolutePath());
+                }
                 DbManager.getInstance().printAllData(CyrusApplication.DB_NAME);
-            }
         });
 
       /*  Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {

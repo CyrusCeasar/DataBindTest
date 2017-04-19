@@ -2,9 +2,6 @@ package com.example.basemoudle.util;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-
-import com.apkfuns.logutils.LogUtils;
 
 import java.util.List;
 import java.util.TreeMap;
@@ -47,14 +44,14 @@ public class DbManager {
                 sb.append(string);
                 sb.append(",");
             }
-            LogUtils.i(sb.toString());
+            LogUtil.i(sb.toString());
             while(tableCursor.moveToNext()){
                 sb = new StringBuilder();
                 for(int i = 0 ; i<tableCursor.getColumnCount();i++){
                     sb.append(tableCursor.getString(i));
                     sb.append(",");
                 }
-                LogUtils.i(sb.toString());
+                LogUtil.i(sb.toString());
             }
             tableCursor.close();
         }

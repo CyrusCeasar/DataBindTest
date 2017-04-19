@@ -220,5 +220,11 @@ public class ShellUtils {
             this.successMsg = successMsg;
             this.errorMsg = errorMsg;
         }
+
+        @Override
+        public String toString() {
+            String str = String.format("Result:%d,SuccessMsg:%s,FailedMsg:%s",result,successMsg,errorMsg);
+            return str;
+        }
     }
 }

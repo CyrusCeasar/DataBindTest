@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fl_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.example.chenlei2.databindtest.ui.plugin.custom.CustomToolBar xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/led_config_ctrl"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:left_tv_text="返回"
+            app:left_tv_visible="true"
+
+            app:right_tv_text="确定"
+            app:right_tv_visible="true"
+            app:title_text="设置提醒"
+            app:title_visible="true"
+            tools:context="com.twsz.ivybox.client.account.LedConfigActivity" />
+
+
+        <EditText
+            android:id="@+id/et_label"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:hint="请输入标题"
+            android:text="提醒"
+            android:textColor="#555555"
+            android:textSize="20sp" />
+
+        <RelativeLayout
+            android:id="@+id/rl_time"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="时间"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:text="2017年4月11日 9:49"
+                android:textColor="#555555" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_rule"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="重复周期"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tv_rule"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:text="一次性活动"
+                android:textColor="#555555" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_ring_rule"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="提醒方式"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tv_ring_rule"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:text="响铃"
+                android:textColor="#555555" />
+        </RelativeLayout>
+    </LinearLayout>
+</FrameLayout>
